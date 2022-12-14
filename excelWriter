@@ -1,0 +1,19 @@
+import yfinance as yf
+import pandas as pd
+
+
+class Financials:
+    def __init__(self, ticker):
+        self.ticker = ticker
+
+    def write_data(self):
+        stock = yf.Ticker(self.ticker)
+        financials = pd.DataFrame(stock.financials)
+        balance_sheet = pd.DataFrame(stock.balance_sheet)
+        cash_flow = pd.DataFrame(stock.cashflow)
+        path = f'C:\\Users\\chris\\Documents\\Financial Independence\\{self.ticker}.xlsx'
+        with pd.ExcelWriter(path) as writer:
+            financials.to_excel(writer, 'Financials')
+            balance_sheet.to_excel(writer, 'Balance Sheet')
+            cash_flow.to_excel(writer, 'Cash Flow')
+        return 'Done'
